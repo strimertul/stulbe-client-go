@@ -8,10 +8,9 @@ import (
 	"net/http"
 
 	jsoniter "github.com/json-iterator/go"
-	"github.com/nicklaw5/helix"
 	"github.com/sirupsen/logrus"
 
-	kvclient "github.com/strimertul/kilovolt-client-go"
+	kvclient "github.com/strimertul/kilovolt-client-go/v2"
 	"github.com/strimertul/stulbe/api"
 )
 
@@ -102,29 +101,6 @@ func (s *Client) newAuthRequest(method string, url string, body io.Reader) (*htt
 	req.Header.Set("Authorization", "Bearer "+s.token)
 
 	return req, nil
-}
-
-func (s *Client) StreamStatus(streamer string) (*helix.Stream, error) {
-	uri := fmt.Sprintf("%s/api/stream/%s/status", s.Endpoint, streamer)
-	req, err := s.newAuthRequest("GET", uri, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	resp, err := s.client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	if resp.StatusCode >= 400 {
-		return nil, getAPIError(resp)
-	}
-
-	var streams []helix.Stream
-	err = jsoniter.ConfigFastest.NewDecoder(resp.Body).Decode(&streams)
-	if len(streams) < 1 {
-		return nil, err
-	}
-	return &streams[0], err
 }
 
 func getAPIError(r *http.Response) error {
