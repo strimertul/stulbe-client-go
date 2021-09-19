@@ -88,12 +88,12 @@ func (s *Client) authenticated() bool {
 	return s.token != ""
 }
 
-func (s *Client) newAuthRequest(method string, url string, body io.Reader) (*http.Request, error) {
+func (s *Client) NewAuthRequest(method string, path string, body io.Reader) (*http.Request, error) {
 	if !s.authenticated() {
 		return nil, ErrNotAuthenticated
 	}
 
-	req, err := http.NewRequest(method, url, body)
+	req, err := http.NewRequest(method, s.Endpoint+path, body)
 	if err != nil {
 		return nil, err
 	}
