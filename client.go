@@ -10,7 +10,7 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/sirupsen/logrus"
 
-	kvclient "github.com/strimertul/kilovolt-client-go/v2"
+	kvclient "github.com/strimertul/kilovolt-client-go/v6"
 	"github.com/strimertul/stulbe/api"
 )
 
