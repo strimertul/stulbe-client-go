@@ -11,9 +11,9 @@ import (
 	"github.com/sirupsen/logrus"
 
 	kvclient "github.com/strimertul/kilovolt-client-go/v6"
-	"github.com/strimertul/stulbe/api"
 )
 
+// Client is a HTTP/Websocket client for the Stulbe API.
 type Client struct {
 	Endpoint string
 	Logger   logrus.FieldLogger
@@ -23,6 +23,7 @@ type Client struct {
 	token  string
 }
 
+// NewClient creates a new client for the Stulbe API
 func NewClient(options ClientOptions) (*Client, error) {
 	if options.Logger == nil {
 		options.Logger = logrus.New()
@@ -61,7 +62,7 @@ func (s *Client) Close() {
 
 func (s *Client) Authenticate(user string, authKey string) error {
 	body := new(bytes.Buffer)
-	err := jsoniter.ConfigFastest.NewEncoder(body).Encode(api.AuthRequest{User: user, AuthKey: authKey})
+	err := jsoniter.ConfigFastest.NewEncoder(body).Encode(AuthRequest{User: user, AuthKey: authKey})
 	if err != nil {
 		return err
 	}
@@ -74,7 +75,7 @@ func (s *Client) Authenticate(user string, authKey string) error {
 		return getAPIError(resp)
 	}
 
-	var reply api.AuthResponse
+	var reply AuthResponse
 	err = jsoniter.ConfigFastest.NewDecoder(resp.Body).Decode(&reply)
 	if err != nil {
 		return err
@@ -104,7 +105,7 @@ func (s *Client) NewAuthRequest(method string, path string, body io.Reader) (*ht
 }
 
 func getAPIError(r *http.Response) error {
-	var apiError api.ResponseError
+	var apiError ResponseError
 	err := jsoniter.ConfigFastest.NewDecoder(r.Body).Decode(&apiError)
 	if err != nil {
 		return err

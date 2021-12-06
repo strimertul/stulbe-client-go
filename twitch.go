@@ -2,7 +2,7 @@ package stulbe
 
 import (
 	jsoniter "github.com/json-iterator/go"
-	"github.com/nicklaw5/helix"
+	"github.com/nicklaw5/helix/v2"
 )
 
 func (s *Client) TwitchUserInfo() (helix.User, error) {
