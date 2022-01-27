@@ -7,16 +7,16 @@ import (
 	"io"
 	"net/http"
 
-	jsoniter "github.com/json-iterator/go"
-	"github.com/sirupsen/logrus"
+	"go.uber.org/zap"
 
-	kvclient "github.com/strimertul/kilovolt-client-go/v6"
+	jsoniter "github.com/json-iterator/go"
+	kvclient "github.com/strimertul/kilovolt-client-go/v7"
 )
 
 // Client is a HTTP/Websocket client for the Stulbe API.
 type Client struct {
 	Endpoint string
-	Logger   logrus.FieldLogger
+	Logger   *zap.Logger
 	KV       *kvclient.Client
 
 	client *http.Client
@@ -26,7 +26,7 @@ type Client struct {
 // NewClient creates a new client for the Stulbe API
 func NewClient(options ClientOptions) (*Client, error) {
 	if options.Logger == nil {
-		options.Logger = logrus.New()
+		options.Logger, _ = zap.NewProduction()
 	}
 
 	client := &Client{

@@ -3,7 +3,7 @@ package stulbe
 import (
 	"errors"
 
-	"github.com/sirupsen/logrus"
+	"go.uber.org/zap"
 )
 
 type StatusResponse struct {
@@ -32,7 +32,7 @@ type ClientOptions struct {
 	Username string
 	AuthKey  string
 
-	Logger logrus.FieldLogger
+	Logger *zap.Logger
 }
 
 var (
