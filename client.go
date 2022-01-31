@@ -10,7 +10,7 @@ import (
 	"go.uber.org/zap"
 
 	jsoniter "github.com/json-iterator/go"
-	kvclient "github.com/strimertul/kilovolt-client-go/v7"
+	kvclient "github.com/strimertul/kilovolt-client-go/v8"
 )
 
 // Client is a HTTP/Websocket client for the Stulbe API.
